@@ -1,12 +1,8 @@
-require("DataFrames")
-using DataFrames
-
 module DimensionalityReduction
-	using DataFrames
-
 	import Base.print, Base.show, Base.repl_show
-	export pca, ica, nmf
+	export pca, pcaeig, pcasvd, ica, nmf
 
-	require("DimensionalityReduction/src/types.jl")
-	require("DimensionalityReduction/src/pca.jl")
+	include(joinpath(julia_pkgdir(), "DimensionalityReduction", "src", "types.jl"))
+	include(joinpath(julia_pkgdir(), "DimensionalityReduction", "src", "pca.jl"))
+	include(joinpath(julia_pkgdir(), "DimensionalityReduction", "src", "nmf.jl"))
 end

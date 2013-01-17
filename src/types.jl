@@ -1,31 +1,51 @@
-type PrincipalComponentsDecomposition
-  rotation::Matrix{Float64}
-  scores::Matrix{Float64}
-  standard_deviations::Vector{Float64}
-  proportion_of_variance::Vector{Float64}
-  cumulative_variance::Vector{Float64}
+type PCA
+    rotation::Matrix{Float64}
+    scores::Matrix{Float64}
+    standard_deviations::Vector{Float64}
+    proportion_of_variance::Vector{Float64}
+    cumulative_variance::Vector{Float64}
 end
 
-function print(io::IOStream, pc::PrincipalComponentsDecomposition)
-  println(io, "Principal Components:")
-  println(io, pc.rotation)
-  println(io)
-  println(io, "Proportion of Variance:")
-  println(io, pc.proportion_of_variance)
-  println(io)
-  println(io, "Cumulative Variance:")
-  println(io, pc.cumulative_variance)
-  println(io)
-end
-print(pc::PrincipalComponentsDecomposition) = print(OUTPUT_STREAM, pc)
-
-function show(io::IOStream, pc::PrincipalComponentsDecomposition)
-  print(io, pc)
-end
-show(pc::PrincipalComponentsDecomposition) = show(OUTPUT_STREAM, pc)
-
-function repl_show(io::IOStream, pc::PrincipalComponentsDecomposition)
-  print(io, pc)
+type NMF
+    W::Matrix{Float64}
+    H::Matrix{Float64}
+    iterations::Int
+    accuracy::Float64
 end
 
-repl_show(pc::PrincipalComponentsDecomposition) = repl_show(OUTPUT_STREAM, pc)
+function show(io::IO, pc::PCA)
+    println(io, "Rotation:")
+    show(io, pc.rotation)
+    print(io, "\n\n")
+    println(io, "Scores:")
+    show(io, pc.scores)
+    print(io, "\n\n")
+    println(io, "Reconstruction:")
+    show(io, pc.scores * pc.rotation')
+    print(io, "\n\n")
+    println(io, "Standard Deviations:")
+    show(io, pc.standard_deviations)
+    print(io, "\n\n")
+    println(io, "Proportion of Variance:")
+    show(io, pc.proportion_of_variance)
+    print(io, "\n\n")
+    println(io, "Cumulative Variance:")
+    show(io, pc.cumulative_variance)
+end
+
+function show(io::IO, res::NMF)
+    println(io, "W:")
+    show(io, res.W)
+    print(io, "\n\n")
+    println(io, "H:")
+    show(io, res.H)
+    print(io, "\n\n")
+    println(io, "Reconstruction:")
+    show(io, res.W * res.H)
+    print(io, "\n\n")
+    println(io, "Iterations:")
+    show(io, res.iterations)
+    print(io, "\n\n")
+    println(io, "Accuracy:")
+    show(io, res.accuracy)
+end

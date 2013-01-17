@@ -1,35 +1,25 @@
-function eigenvector_pca{T <: Real}(x::Matrix{T})
-  c_x = cov(x)
-  (l, z) = eig(c_x)
-  p = z'
-  # eigenvectors are in reverse order
-  l = reverse(l)
-  p = p[:, reverse(1:size(p, 2))]
-  y = x * p
-  return PrincipalComponentsDecomposition(p, y, sqrt(l), l / sum(l), cumsum(l) / sum(l))
-end
-
-function svd_pca{T <: Real}(x::Matrix{T})
-  (a, b, c) = svd(cov(x))
-  return PrincipalComponentsDecomposition(c, x * c, sqrt(b), b / sum(b), cumsum(b) / sum(b))
-end
-
-function iterative_pca{T <: Real}(x::Matrix{T})
-  error("not yet implemented")
-end
-
-function pca{T <: Real}(x::Matrix{T}, method::Symbol)
-  if method == :eigenvectors
-    eigenvector_pca(x)
-  else
-    if method == :svd
-      svd_pca(x)
-    else
-      iterative_pca(x)
+function pcaeig(X::Matrix)
+    L, Z = eig(cov(X))
+    P = Z'
+    # Eigenvectors are in reverse order from R's
+    # Need to clamp any negative eigenvalues before calling sqrt()
+    L = reverse(L)
+    for i in 1:length(L)
+        L[i] = clamp(L[i], 0.0, Inf)
     end
-  end
+    P = fliplr(P)
+    Y = X * P # X ~ Y * P'
+    return PCA(P, Y, sqrt(L), L / sum(L), cumsum(L) / sum(L))
 end
 
-function pca{T <: Real}(x::Matrix{T})
-  pca(x, :eigenvectors)
+function pcasvd(X::Matrix)
+    A, B, C = svd(cov(X))
+    return PCA(C, X * C, sqrt(B), B / sum(B), cumsum(B) / sum(B))
 end
+
+pcaiterative(x::Matrix) = error("not yet implemented")
+
+# TODO: PCA of a DataMatrix
+#       Should be robust to NA
+
+pca(x::Matrix) = pcasvd(x)
