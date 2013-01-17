@@ -6,6 +6,12 @@ type PCA
     cumulative_variance::Vector{Float64}
 end
 
+type MDS
+    X::Matrix
+    D::Matrix{Float64}
+    k::Int
+end
+
 type NMF
     W::Matrix{Float64}
     H::Matrix{Float64}
@@ -31,6 +37,17 @@ function show(io::IO, pc::PCA)
     print(io, "\n\n")
     println(io, "Cumulative Variance:")
     show(io, pc.cumulative_variance)
+end
+
+function show(io::IO, m::MDS)
+    println(io, "Positions:")
+    show(io, m.X)
+    print(io, "\n\n")
+    println(io, "Distance Matrix:")
+    show(io, m.D)
+    print(io, "\n\n")
+    println(io, "Number of Dimensions:")
+    show(io, m.k)
 end
 
 function show(io::IO, res::NMF)
