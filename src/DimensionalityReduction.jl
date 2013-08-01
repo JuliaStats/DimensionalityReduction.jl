@@ -6,4 +6,5 @@ module DimensionalityReduction
 	include(joinpath(julia_pkgdir(), "DimensionalityReduction", "src", "pca.jl"))
 	include(joinpath(julia_pkgdir(), "DimensionalityReduction", "src", "nmf.jl"))
 	include(joinpath(julia_pkgdir(), "DimensionalityReduction", "src", "mds.jl"))
+    include(joinpath(julia_pkgdir(), "DimensionalityReduction", "src", "ica.jl"))
 end
