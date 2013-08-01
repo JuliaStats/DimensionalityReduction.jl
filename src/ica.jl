@@ -251,7 +251,7 @@ function kurt_gradient_optstep(w, X, s, P)
 
         norm_g = norm(g)
 
-        if norm_g >= 10e-12
+        if norm_g >= 10e-13 # eps() in original Matlab implementation
 
             # normalize the gradient
             g = g/norm_g
