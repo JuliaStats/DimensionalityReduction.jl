@@ -1,3 +1,8 @@
+# Translated from Vicente Zarzoso's Matlab code with his permission to use an
+# MIT license. Vicente asked us to make clear that this implementation
+# has not been reviewed by him and that he cannot be held liable for any
+# (a) discrepancies between his code and this code or (b) any consequences
+# resulting from any discrepancies between his code and this code.
 
 function ica(X::Matrix; kurtsign=[], tol=.001, max_it=1000, prewhi=false, deftype='r', dimred=false, verbose=false)
     # Kurtosis-based RobustICA method for deflationary ICA/BSS (see references below for details).
