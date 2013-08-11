@@ -25,8 +25,13 @@ The current implementation of NMF borrows several ideas from the
 implementation in Luis Pedro Coelho's Milk package. That code is under
 the MIT license as well.
 
-The current implementation of ICA was translated from Vicente Zarzoso's
-Matlab code. http://www.i3s.unice.fr/~zarzoso/robustica.html
+The current implementation of ICA was derived from Vicente Zarzoso's
+Matlab code with his permission, but without any oversight from him.
+Vicente cannot be held liable for any discrepancies from the original 
+implementation nor for any consequences derived from such 
+discrepancies as may exist. Vicente's original Matlab code may be found
+here:
+http://www.i3s.unice.fr/~zarzoso/robustica.html
 
 REFERENCES:
 - V. Zarzoso and P. Comon, <a href = "http://www.i3s.unice.fr/~zarzoso/biblio/tnn10.pdf">"Robust independent component analysis by iterative maximization</a>
