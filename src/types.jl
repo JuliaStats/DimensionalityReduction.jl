@@ -6,10 +6,11 @@ type PCA
     cumulative_variance::Vector{Float64}
 end
 
-type MDS
-    X::Matrix
-    D::Matrix{Float64}
-    k::Int
+type ICA
+    S::Matrix{Float64}
+    H::Matrix{Float64}
+    iter::Vector{Int}
+    W::Matrix{Float64}
 end
 
 type NMF
@@ -18,6 +19,7 @@ type NMF
     iterations::Int
     accuracy::Float64
 end
+
 
 function show(io::IO, pc::PCA)
     println(io, "Rotation:")
@@ -39,16 +41,20 @@ function show(io::IO, pc::PCA)
     show(io, pc.cumulative_variance)
 end
 
-function show(io::IO, m::MDS)
-    println(io, "Positions:")
-    show(io, m.X)
+function show(io::IO, ic::ICA)
+    println(io, "Source Matrix:")
+    show(io, ic.S)
     print(io, "\n\n")
-    println(io, "Distance Matrix:")
-    show(io, m.D)
+    println(io, "Mixing Matrix:")
+    show(io, ic.H)
     print(io, "\n\n")
-    println(io, "Number of Dimensions:")
-    show(io, m.k)
+    println(io, "Iterations:")
+    show(io, ic.iter)
+    print(io, "\n\n")
+    println(io, "Extracting Matrix:")
+    show(io, ic.H)
 end
+
 
 function show(io::IO, res::NMF)
     println(io, "W:")

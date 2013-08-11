@@ -4,7 +4,7 @@ DimensionalityReduction.jl
 # Algorithms
 
 * PCA
-* ICA (TODO)
+* ICA
 * NMF
 
 # PCA Usage
@@ -22,6 +22,20 @@ DimensionalityReduction.jl
 	cov(X)
 
 	results = pca(X)
+
+# ICA Usage
+    using DimensionalityReduction
+
+    # Generate true sources
+    S_true = rand(5,1000)
+
+    # Mixing matrix
+    H_true = randn(5, 5)
+
+    # generate observed signals
+    X = H_true*S_true
+
+    results = ica(X)
 
 # NMF Usage
 

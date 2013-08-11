@@ -24,3 +24,17 @@ DimensionalityReduction.jl is licensed under the MIT License:
 The current implementation of NMF borrows several ideas from the
 implementation in Luis Pedro Coelho's Milk package. That code is under
 the MIT license as well.
+
+The current implementation of ICA was translated from Vicente Zarzoso's
+Matlab code. http://www.i3s.unice.fr/~zarzoso/robustica.html
+
+REFERENCES:
+- V. Zarzoso and P. Comon, <a href = "http://www.i3s.unice.fr/~zarzoso/biblio/tnn10.pdf">"Robust independent component analysis by iterative maximization</a>
+   <a href = "http://www.i3s.unice.fr/~zarzoso/biblio/tnn10.pdf">of the kurtosis contrast with algebraic optimal step size"</a>,
+  IEEE Transactions on Neural Networks, vol. 21, no. 2, pp. 248-261, Feb. 2010.
+- V. Zarzoso and P. Comon, <a href = "http://www.i3s.unice.fr/~zarzoso/biblio/ica07.pdf">"Comparative Speed Analysis of FastICA"</a>,
+  in: Proceedings ICA-2007, 7th International Conference on Independent Component Analysis
+      and Signal Separation, London, UK, September 9-12, 2007, pp. 293-300.
+- V. Zarzoso, P. Comon and M. Kallel,  <a href = "http://www.i3s.unice.fr/~zarzoso/biblio/eusipco06.pdf">"How Fast is FastICA?"</a>,
+  in: Proceedings EUSIPCO-2006, XIV European Signal Processing Conference,
+      Florence, Italy, September 4-8, 2006.
