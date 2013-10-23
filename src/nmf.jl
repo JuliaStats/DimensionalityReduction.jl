@@ -24,7 +24,7 @@ function nmf(X::Matrix,
         H .*= updateH
         updateW = (X * H') ./ (W * (H * H') + epsilon)
         W .*= updateW
-        max_update = max(max(updateH), max(updateW))
+        max_update = max(maximum(updateH), maximum(updateW))
         if abs(1.0 - max_update) < tolerance
             break
         end
