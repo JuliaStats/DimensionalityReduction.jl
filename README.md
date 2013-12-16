@@ -6,6 +6,7 @@ DimensionalityReduction.jl
 * PCA
 * ICA
 * NMF
+* t-SNE
 
 # PCA Usage
 
@@ -44,3 +45,11 @@ DimensionalityReduction.jl
     X = hcat(eye(2), eye(2))
     X = vcat(X, X, X, X)
     results = nmf(X, 2)
+
+# t-SNE Usage
+
+    using DimensionalityReduction
+
+    X = hcat(eye(2), eye(2))
+    X = vcat(X, X, X, X)
+    results = tsne(X, 2)
