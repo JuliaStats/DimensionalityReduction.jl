@@ -20,8 +20,11 @@ type NMF
     accuracy::Float64
 end
 
+type TSNE
+    Y::Matrix{Float64}
+end
 
-function show(io::IO, pc::PCA)
+function Base.show(io::IO, pc::PCA)
     println(io, "Rotation:")
     show(io, pc.rotation)
     print(io, "\n\n")
@@ -41,7 +44,7 @@ function show(io::IO, pc::PCA)
     show(io, pc.cumulative_variance)
 end
 
-function show(io::IO, ic::ICA)
+function Base.show(io::IO, ic::ICA)
     println(io, "Source Matrix:")
     show(io, ic.S)
     print(io, "\n\n")
@@ -55,8 +58,7 @@ function show(io::IO, ic::ICA)
     show(io, ic.H)
 end
 
-
-function show(io::IO, res::NMF)
+function Base.show(io::IO, res::NMF)
     println(io, "W:")
     show(io, res.W)
     print(io, "\n\n")
@@ -71,4 +73,9 @@ function show(io::IO, res::NMF)
     print(io, "\n\n")
     println(io, "Accuracy:")
     show(io, res.accuracy)
+end
+
+function Base.show(io::IO, res::TSNE)
+    @printf "t-SNE results\n"
+    show(io, res.Y)
 end
