@@ -1,20 +1,22 @@
 function pcaeig(X::Matrix)
-    L, Z = eig(cov(X))
-    P = Z'
+    n = size(X,1)
+    XtXeig = eigfact!(cov(X))
     # Eigenvectors are in reverse order from R's
     # Need to clamp any negative eigenvalues before calling sqrt()
-    L = reverse(L)
+    L = reverse(XtXeig[:values])
     for i in 1:length(L)
-        L[i] = clamp(L[i], 0.0, Inf)
+        L[i] = clamp(L[i], 0.0, Inf)*(n-1)/n
     end
-    P = fliplr(P)
-    Y = X * P # X ~ Y * P'
-    return PCA(P, Y, sqrt(L), L / sum(L), cumsum(L) / sum(L))
+    Z = fliplr(XtXeig[:vectors])
+    return PCA(Z, X*Z, sqrt(L), L / sum(L), cumsum(L) / sum(L))
 end
 
 function pcasvd(X::Matrix)
-    A, B, C = svd(cov(X))
-    return PCA(C, X * C, sqrt(B), B / sum(B), cumsum(B) / sum(B))
+    Xsvd = svdfact(X)
+    pcsd = Xsvd[:S]/sqrt(size(X,1))
+    pcv = pcsd.^2
+    pcvsum = sum(pcv)
+    return PCA(Xsvd[:V], Xsvd[:U]*Diagonal(pcsd), pcsd, pcv/pcvsum, cumsum(pcv)/pcvsum)
 end
 
 pcaiterative(x::Matrix) = error("not yet implemented")
