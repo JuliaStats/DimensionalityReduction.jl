@@ -1,5 +1,6 @@
 module DimensionalityReduction
-    export pca, pcaeig, pcasvd, ica, nmf, mds, tsne
+    export pca, pcaeig, pcasvd, biplot, pca_example
+    export ica, nmf, mds, tsne
 
     include("types.jl")
     include("pca.jl")

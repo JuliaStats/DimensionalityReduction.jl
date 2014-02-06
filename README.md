@@ -3,28 +3,31 @@ DimensionalityReduction.jl
 
 # Algorithms
 
-* PCA
-* ICA
-* NMF
-* t-SNE
+* Principal Component Analysis (PCA)
+* Independant Component Analysis (ICA)
+* Non-negative Matrix Factorization (NMF)
+* t-Distributed Stochastic Neighbor Embedding (t-SNE)
 
 # PCA Usage
 
-	using DimensionalityReduction
+    using DimensionalityReduction
 
-	srand(1)
+    X = reshape(rand(40),10,4)
+    Xpca = pca(X)
 
-	X = hcat(10 * randn(10), randn(10))
-	cov(X)
+Attributes:
 
-	theta = pi / 4.0
-	R = [cos(theta) -sin(theta); sin(theta) cos(theta)]
-	X = X * R
-	cov(X)
+    Xpca.rotation                # principal components
+    Xpca.scores                  # rotated X
+    Xpca.standard_deviations     # square roots of the eigenvalues
+    Xpca.proportion_of_variance  # fraction of variance brought by each principal component
+    Xpca.cumulative_variance     # cumulative proportion of variance
 
-	results = pca(X)
+By default, pca() uses SVD decomposition. Alternatively, `pcaeig(X)` will calculate
+directly the eigenvectors of the covariance matrix.
 
 # ICA Usage
+
     using DimensionalityReduction
 
     # Generate true sources
@@ -40,7 +43,7 @@ DimensionalityReduction.jl
 
 # NMF Usage
 
-	using DimensionalityReduction
+    using DimensionalityReduction
 
     X = hcat(eye(2), eye(2))
     X = vcat(X, X, X, X)
