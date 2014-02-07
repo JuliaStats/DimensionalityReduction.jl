@@ -26,6 +26,20 @@ Attributes:
 By default, pca() uses SVD decomposition. Alternatively, `pcaeig(X)` will calculate
 directly the eigenvectors of the covariance matrix.
 
+To make a biplot:
+
+    using Gadfly
+    scores = Xpca.scores[:,1:2]
+    pl = plot(x=scores[1],y=scores[2], Geom.point)
+    draw(PNG("pca.png", 6inch, 6inch), pl)
+
+Starting from a DataFrame:
+
+    using RDatasets
+    iris = data("datasets", "iris")
+    iris = convert(Array,DataArray(iris[:,1:4]))
+    Xpca = pca(iris)
+
 # ICA Usage
 
     using DimensionalityReduction

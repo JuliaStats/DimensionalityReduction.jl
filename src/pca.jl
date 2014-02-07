@@ -1,40 +1,33 @@
 
-
 # Subtracts each column's mean (if center=true),
 # divides by each column's standard deviation (if scale=true).
-function normalize!(X::Matrix ; center=true, scale=false)
+function normalize(X::Matrix ; center=true, scale=true)
     n = size(X,1)
     if center
-        means = mean(X,1)
-        for i in 1:n
-            X[i,:] = X[i,:].-means
-        end
+        X = X.-mean(X,1)
     end
     if scale
-        sd = std(X,1)
-        for i in 1:n
-            X[i,:] = X[i,:]./sd
-        end
+        X = X./std(X,1)
     end
     return X
 end
-normalize(X::Matrix ; kwargs...) = normalize!(copy(X) ; kwargs...)
 
-#-----------------------------------------------------------------------------#
-
-function pcaeig(X::Matrix ; correlation=false)
+function pcaeig(X::Matrix ; center=true, scale=true)
     n = size(X,1)
-    C = correlation ? cor(X) : cov(X)
+    X = normalize(X ; center=center)
+    C = scale ? cor(X) : cov(X)
     XtXeig = eigfact!(C)
     # Eigenvectors are in reverse order from R's
     L = reverse(XtXeig[:values])
+    # Zero eigenvalues could have a negative sign
+    L = clamp(L, 0.0, Inf)*(n-1)/n
     V = fliplr(XtXeig[:vectors])
     return PCA(V, X*V, sqrt(L), L / sum(L), cumsum(L) / sum(L))
 end
 
-function pcasvd(X::Matrix ; center=true, scale=false, tol=Inf)
-    normalize!(X ; center=center, scale=scale)
+function pcasvd(X::Matrix ; center=true, scale=true)
     n = size(X,1)
+    X = normalize(X ; center=center, scale=scale)
     Xsvd = svdfact(X)
     pcsd = Xsvd[:S]/sqrt(n)
     pcv = pcsd.^2
@@ -42,36 +35,17 @@ function pcasvd(X::Matrix ; center=true, scale=false, tol=Inf)
     return PCA(Xsvd[:V], Xsvd[:U]*Diagonal(Xsvd[:S]), pcsd, pcv/pcvsum, cumsum(pcv)/pcvsum)
 end
 
-#-----------------------------------------------------------------------------#
-
-# Not functional (where to do the import of Gadfly??)
-function biplot(P::PCA)
-    using Gadfly
-    scores = P.scores[:,1:2]
-    return plot(x=scores[1],y=scores[2], Geom.point)
-end
-
-# Not functional (see above)
-function pca_example()
-    using RDatasets
-    df = data("datasets", "iris")
-    iris = convert(Array,DataArray(df[:,1:4]))
-    psvd = pca(iris)
-    pl = biplot(psvd)
-end
-
-#-----------------------------------------------------------------------------#
 
 # TODO: PCA of a DataMatrix, DataArray, DataFrame
 #       Should be robust to NA
 #       Biplot
-#       Eigenvectors orientation
+#       Eigenvectors orientation? (pcaeig)
+#       Summary
 
-#-----------------------------------------------------------------------------#
 
 # Default uses SVD decomposition
-pca(x::Matrix ; kwargs...) = pcasvd(x ; kwargs...)
+pca(X::Matrix ; kwargs...) = pcasvd(X ; kwargs...)
 
-pcaiterative(x::Matrix) = error("not yet implemented")
+pcaiterative(X::Matrix) = error("not yet implemented")
 
 

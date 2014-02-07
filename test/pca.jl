@@ -1,21 +1,21 @@
 using DimensionalityReduction
 
 X = hcat(eye(2), eye(2))
-results = pcaeig(X)
-@assert max(X - results.scores * results.rotation') < 10e-4
-results = pcasvd(X)
-@assert max(X - results.scores * results.rotation') < 10e-4
-results = pca(X)
-@assert max(X - results.scores * results.rotation') < 10e-4
+results = pcaeig(X ; center=false, scale=false )
+@assert maximum(X - results.scores * results.rotation') < 10e-4
+results = pcasvd(X ; center=false, scale=false)
+@assert maximum(X - results.scores * results.rotation') < 10e-4
+results = pca(X ; center=false, scale=false)
+@assert maximum(X - results.scores * results.rotation') < 10e-4
 
 X = hcat(eye(2), eye(2))
 X = vcat(X, X, X, X)
-results = pcaeig(X)
-@assert max(X - results.scores * results.rotation') < 10e-4
-results = pcasvd(X)
-@assert max(X - results.scores * results.rotation') < 10e-4
-results = pca(X)
-@assert max(X - results.scores * results.rotation') < 10e-4
+results = pcaeig(X ; center=false, scale=false)
+@assert maximum(X - results.scores * results.rotation') < 10e-4
+results = pcasvd(X ; center=false, scale=false)
+@assert maximum(X - results.scores * results.rotation') < 10e-4
+results = pca(X ; center=false, scale=false)
+@assert maximum(X - results.scores * results.rotation') < 10e-4
 
 srand(1)
 
