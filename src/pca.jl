@@ -1,27 +1,51 @@
-function pcaeig(X::Matrix)
+
+# Subtracts each column's mean (if center=true),
+# divides by each column's standard deviation (if scale=true).
+function normalize(X::Matrix ; center=true, scale=true)
     n = size(X,1)
-    XtXeig = eigfact!(cov(X))
-    # Eigenvectors are in reverse order from R's
-    # Need to clamp any negative eigenvalues before calling sqrt()
-    L = reverse(XtXeig[:values])
-    for i in 1:length(L)
-        L[i] = clamp(L[i], 0.0, Inf)*(n-1)/n
+    if center
+        X = X.-mean(X,1)
     end
-    Z = fliplr(XtXeig[:vectors])
-    return PCA(Z, X*Z, sqrt(L), L / sum(L), cumsum(L) / sum(L))
+    if scale
+        X = X./std(X,1)
+    end
+    return X
 end
 
-function pcasvd(X::Matrix)
+function pcaeig(X::Matrix ; center=true, scale=true)
+    n = size(X,1)
+    X = normalize(X ; center=center)
+    C = scale ? cor(X) : cov(X)
+    XtXeig = eigfact!(C)
+    # Eigenvectors are in reverse order from R's
+    L = reverse(XtXeig[:values])
+    # Zero eigenvalues could have a negative sign
+    L = clamp(L, 0.0, Inf)*(n-1)/n
+    V = fliplr(XtXeig[:vectors])
+    return PCA(V, X*V, sqrt(L), L / sum(L), cumsum(L) / sum(L))
+end
+
+function pcasvd(X::Matrix ; center=true, scale=true)
+    n = size(X,1)
+    X = normalize(X ; center=center, scale=scale)
     Xsvd = svdfact(X)
-    pcsd = Xsvd[:S]/sqrt(size(X,1))
+    pcsd = Xsvd[:S]/sqrt(n)
     pcv = pcsd.^2
     pcvsum = sum(pcv)
-    return PCA(Xsvd[:V], Xsvd[:U]*Diagonal(pcsd), pcsd, pcv/pcvsum, cumsum(pcv)/pcvsum)
+    return PCA(Xsvd[:V], Xsvd[:U]*Diagonal(Xsvd[:S]), pcsd, pcv/pcvsum, cumsum(pcv)/pcvsum)
 end
 
-pcaiterative(x::Matrix) = error("not yet implemented")
 
-# TODO: PCA of a DataMatrix
+# TODO: PCA of a DataMatrix, DataArray, DataFrame
 #       Should be robust to NA
+#       Biplot
+#       Eigenvectors orientation? (pcaeig)
+#       Summary
 
-pca(x::Matrix) = pcasvd(x)
+
+# Default uses SVD decomposition
+pca(X::Matrix ; kwargs...) = pcasvd(X ; kwargs...)
+
+pcaiterative(X::Matrix) = error("not yet implemented")
+
+
