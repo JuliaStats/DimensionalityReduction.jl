@@ -12,6 +12,9 @@ function nmf(X::Matrix,
              max_iter::Integer,
              tolerance::FloatingPoint,
              epsilon::FloatingPoint)
+
+    Base.depwarn("nmf is deprecated. Please checkout the NMF package.", :nmf)
+
     n, m = size(X)
 
     W = randn(n, d).^2
