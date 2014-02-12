@@ -1,7 +1,6 @@
 using DimensionalityReduction
 
 my_tests = ["test/pca.jl",
-            "test/nmf.jl",
             "test/ica.jl"]
 
 println("Running tests:")
