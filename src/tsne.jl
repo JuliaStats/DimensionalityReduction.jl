@@ -89,12 +89,13 @@ function x2p(X::Matrix,
     return P
 end
 
-function innerpca(X::Matrix, ndims::Integer = 50)
+function innerpca{T}(X::Matrix{T}, ndims::Integer = 50)
     # Runs PCA on the NxD array X in order to reduce its
     # dimensionality to ndims dimensions.
     n, d = size(X)
-    X = X - repmat(mean(X, 1), n, 1)
-    l, M = eig(X' * X)
+    X = X .- mean(X, 1)
+    Xp = float(X' * X)
+    M = eigfact(Xp).vectors::typeof(Xp)
     Y = X * M[:, 1:min(d, ndims)]
     return Y
 end
