@@ -1,7 +1,8 @@
 
 # Subtracts each column's mean (if center=true),
 # divides by each column's standard deviation (if scale=true).
-# Returns (scaledData, mean, std), where mean or std may be 'nothing'
+# Returns (scaledData, mean, std), where mean or std may be 
+#  empty matrices if center or scale are false
 function normalize{T}(X::Matrix{T} ; center=true, scale=true)
     n = size(X,1)
 
