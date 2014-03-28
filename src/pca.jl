@@ -2,19 +2,23 @@
 # Subtracts each column's mean (if center=true),
 # divides by each column's standard deviation (if scale=true).
 # Returns (scaledData, mean, std), where mean or std may be 'nothing'
-function normalize(X::Matrix ; center=true, scale=true)
+function normalize{T}(X::Matrix{T} ; center=true, scale=true)
     n = size(X,1)
 
-    m = nothing
+    local m
     if center
         m = mean(X,1)
         X = X .- m
+    else
+        m = similar(X, 0, 0)
     end
 
-    s = nothing
+    local s
     if scale
         s = std(X,1)
         X = X ./ s
+    else
+        s = similar(X, 0, 0)
     end
 
     return X, m, s
