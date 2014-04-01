@@ -4,9 +4,6 @@ DimensionalityReduction.jl
 # Algorithms
 
 * Principal Component Analysis (PCA)
-* Independant Component Analysis (ICA)
-* Non-negative Matrix Factorization (NMF)
-* t-Distributed Stochastic Neighbor Embedding (t-SNE)
 
 # PCA Usage
 
@@ -16,6 +13,9 @@ DimensionalityReduction.jl
     # rotate and scale as well
     X = randn(100,2) * [0.8 0.7; 0.9 0.5]
     Xpca = pca(X)
+
+Rows of `X` each represent a data point (i.e., a different repetition of the experiment),
+and columns of `X` represent the different variables measured.
 
 Attributes:
 
@@ -32,6 +32,9 @@ directly the eigenvectors of the covariance matrix.
 This is controlled by the `center` and `scale` keyword arguments:
 
 	pca(X::Matrix ; center::Bool, scale::Bool)
+
+Centering is done by subtracting the mean, and scaling by normalizing each variable by its
+standard deviation.
 
 If `scale` is true (default), then the principal components of the data are also
 scaled back to the original space and saved to `Xpca.rotation`
@@ -79,31 +82,12 @@ Starting from a DataFrame:
 
 # ICA Usage
 
-    using DimensionalityReduction
-
-    # Generate true sources
-    S_true = rand(5,1000)
-
-    # Mixing matrix
-    H_true = randn(5, 5)
-
-    # generate observed signals
-    X = H_true*S_true
-
-    results = ica(X)
-
-# NMF Usage
-
-    using DimensionalityReduction
-
-    X = hcat(eye(2), eye(2))
-    X = vcat(X, X, X, X)
-    results = nmf(X, 2)
+ICA has been deprecated.
 
 # t-SNE Usage
 
-    using DimensionalityReduction
+t-SNE has been deprecated.
 
-    X = hcat(eye(2), eye(2))
-    X = vcat(X, X, X, X)
-    results = tsne(X, 2)
+# NMF
+
+NMF has been moved into a separate [package](https://github.com/JuliaStats/NMF.jl).

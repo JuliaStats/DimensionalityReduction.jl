@@ -64,6 +64,7 @@ function ica(X::Matrix; kurtsign=[], tol=.001, max_it=1000, prewhi=false, deftyp
     # HISTORY:
     #   2013-08-01: Conversion from Vicente Zarzoso's Matlab functions by Chris Said.
 
+    Base.depwarn("ica is deprecated.", :ica)
 
     n, T = size(X)
     X = X - mean(X,2)*ones(1,T)
