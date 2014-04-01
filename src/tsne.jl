@@ -112,6 +112,8 @@ function tsne(X::Matrix,
               tracing::Bool = false)
     #Runs t-SNE on the dataset in the NxD array X to reduce its dimensionality to no_dims dimensions.
 
+    Base.depwarn("tsne is deprecated.", :tsne)
+
     # Initialize variables
     if initial_dims > 0
         X = innerpca(X, initial_dims)
