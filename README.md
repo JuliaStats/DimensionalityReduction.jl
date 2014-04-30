@@ -84,9 +84,35 @@ Starting from a DataFrame:
 
 ICA has been deprecated.
 
-# t-SNE Usage
+# SNE/t-SNE Usage
 
-t-SNE has been deprecated.
+SNE and t-SNE are two closely related algorithms that can be used to produce
+two-dimensional visualizations of high-dimensional datasets. They are available
+through the `sne` and `tsne` functions:
+
+```
+X = hcat(randn(10, 100), randn(10, 100) .+ 10)
+
+Y = sne(X)
+Y = tsne(X)
+```
+
+Both algorithms expose a variety of options. These are made available using
+keyword arguments:
+
+* `k` is the number of dimensions in which the output should lie. It defaults
+   to `2`
+* `iterations` determines the number of iterations of gradient descent used
+   when fitting the model. It defaults to `1000`, which can be prohibitive
+   for large data sets.
+* `perplexity` determines whether the model focused on local or global
+   structure when embedding. It can take on any value strictly between `0` and
+   `1` and defaults to `0.9`.
+* `verbose` determines whether the gradient descent process will print
+   out verbose information about the cost function value's at each iteration.
+   It defaults to `true` because the algorithm is slow and may seem to hang.
+* `tolerance` determines the minimum change in the cost function before
+   the gradient descent algorithm will be terminated. It defaults to `10e-12`.
 
 # NMF
 
