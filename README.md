@@ -1,6 +1,10 @@
 DimensionalityReduction.jl
 ==========================
 
+**The DimensionalityReduction package is deprecated. It is superseded by a new package [MultivariateStats](https://github.com/JuliaStats/MultivariateStats.jl). **.
+
+---
+
 # Algorithms
 
 * Principal Component Analysis (PCA)
